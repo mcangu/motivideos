@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MotiVideos</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 15px 0;
+        width: 100%;
+        text-align: center;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.5em;
+      }
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 20px auto;
+        display: flex;
+      }
+      .video-list {
+        width: 30%;
+        margin-right: 20px;
+        max-height: 80vh;
+        overflow-y: auto;
+        border-right: 1px solid #ddd;
+        padding-right: 20px;
+      }
+      .video-list h2 {
+        font-size: 1.2em;
+        margin: 0;
+        padding: 10px 0;
+        border-bottom: 1px solid #ddd;
+      }
+      .video-item {
+        margin-bottom: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+      .video-item img {
+        width: 120px;
+        height: 90px;
+        border-radius: 4px;
+        margin-right: 10px;
+      }
+      .video-item h3 {
+        margin: 0;
+        font-size: 1em;
+      }
+      .video-player {
+        width: 70%;
+      }
+      video {
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      .search-bar {
+        width: 100%;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .search-bar input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        width: 70%;
+        max-width: 600px;
+      }
+      .search-bar button {
+        padding: 10px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+      .search-bar button:hover {
+        background-color: #0056b3;
+      }
+      footer {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+      }
+      footer a {
+        color: #fff;
+        text-decoration: none;
+      }
+      footer a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>MOTIVIDEOS</h1>
+    </header>
+
+    <div class="container">
+      <div class="video-list">
+        <div class="search-bar">
+          <input type="text" id="searchInput" placeholder="Buscar videos..." />
+          <button id="searchButton">Buscar</button>
+        </div>
+        <div id="videoList">
+          <!-- Lista de videos se llenará aquí -->
+        </div>
+      </div>
+      <div class="video-player">
+        <video id="videoPlayer" controls>
+          <source src="" type="video/mp4" />
+          Tu navegador no soporta el elemento de video.
+        </video>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; OM 2024 <a href="#">Políticas de Privacidad</a></p>
+    </footer>
+
+    <script>
+      // Lista de videos de ejemplo
+      const videos = [
+        {
+          title: "Cambia",
+          src: "assets/cambia.mp4",
+          thumbnail: "assets/mini2.jpg",
+        },
+        {
+          title: "Dibujos",
+          src: "assets/dibujos.mp4",
+          thumbnail: "assets/mini1.jpg",
+        },
+        {
+          title: "Pelicula",
+          src: "assets/peli.mp4",
+          thumbnail: "assets/mini3.jpg",
+        },
+      ];
+
+      const videoListDiv = document.getElementById("videoList");
+      const videoPlayer = document.getElementById("videoPlayer");
+      const searchInput = document.getElementById("searchInput");
+      const searchButton = document.getElementById("searchButton");
+
+      function loadVideos(videos) {
+        videoListDiv.innerHTML = "";
+        videos.forEach((video, index) => {
+          const videoItem = document.createElement("div");
+          videoItem.className = "video-item";
+          videoItem.innerHTML = `
+                    <img src="${video.thumbnail}" alt="${video.title}">
+                    <h3>${video.title}</h3>
+                `;
+          videoItem.addEventListener("click", () => {
+            videoPlayer.src = video.src;
+          });
+          videoListDiv.appendChild(videoItem);
+        });
+      }
+
+      function searchVideos() {
+        const query = searchInput.value.toLowerCase();
+        const filteredVideos = videos.filter((video) =>
+          video.title.toLowerCase().includes(query)
+        );
+        loadVideos(filteredVideos);
+      }
+
+      searchButton.addEventListener("click", searchVideos);
+      searchInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+          searchVideos();
+        }
+      });
+
+      // Cargar videos por defecto
+      loadVideos(videos);
+    </script>
+  </body>
+</html>
